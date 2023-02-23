@@ -1,32 +1,62 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
 import './App.css'
+import { Row, Divider, Col} from 'antd';
+import foods from './foods.json'
+import FoodBox from './components/FoodBox';
+import AddFoodForm from './components/AddFoodForm';
+import Search from './components/Search';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [foodsState, setFoodsState] = useState(foods) 
+  const [showFood, setShowFood] = useState(foods) // set - method to change
+  
+
+  const setFood = (added) => {
+  const addedFood = [added, ...foodsState];
+
+    setFoodsState(addedFood);
+    setShowFood(addedFood);
+  }
+
+  const filterFood = (searchQuery) => {
+    const filteredFood = foodsState.filter( food =>
+    food.name.toLowerCase().includes(searchQuery.toLowerCase()) );
+
+    setShowFood(filteredFood);
+  }
+
+  const deleteFood = (name) => {
+    const foodWithoutDeleted = showFood.filter( food =>
+    food.name!== name);
+
+    setFoodsState(foodWithoutDeleted);
+    setShowFood(foodWithoutDeleted);
+  }
+
 
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+
+      <AddFoodForm setFood={setFood} />
+      <Divider> Search</Divider>
+      <Search filterFood={filterFood} />
+      <Divider>Food List</Divider>
+
+      <Row style={{ width: '100%', justifyContent: 'center' }}>
+        {/* Render the list of Food Box components here */}
+        {showFood.map( (food) => {
+            return (
+              <Col>
+               <FoodBox food={food} 
+                key={food.name}
+                listDelete={deleteFood}
+               />
+              </Col>
+            )
+
+        } )}
+      </Row>
+
     </div>
   )
 }
