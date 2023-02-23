@@ -38,7 +38,6 @@ function App() {
     <div className="App">
 
       <AddFoodForm setFood={setFood} />
-      <Divider> Search</Divider>
       <Search filterFood={filterFood} />
       <Divider>Food List</Divider>
 
@@ -53,8 +52,7 @@ function App() {
                />
               </Col>
             )
-
-        } )}
+        })}
       </Row>
 
     </div>

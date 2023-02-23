@@ -1,4 +1,4 @@
-import { Input } from 'antd';
+import { Divider, Input } from 'antd';
 import { useState } from 'react'
 
 function Search( {filterFood} ) {
@@ -13,6 +13,7 @@ function Search( {filterFood} ) {
   
   return (
     <div>
+    <Divider> Search</Divider>
       <Input type="text" value={searchQuery} onChange={handleInput} />
     </div> 
   ); 
